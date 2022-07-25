@@ -40,7 +40,7 @@ class OrderBehavior extends Behavior
      * @var string name owner attribute, which will store position value.
      * This attribute should be an integer.
      */
-    public $positionAttribute = 'position';
+    public $positionAttribute = 'order';
     /**
      * @var array list of owner attribute names, which values split records into the groups,
      * which should have their own positioning.
@@ -64,7 +64,8 @@ class OrderBehavior extends Behavior
         $positionAttribute = $this->positionAttribute;
 
         /* @var $previousRecord BaseActiveRecord */
-        $previousRecord = $this->owner->find()
+        $previousRecord = (new \yii\db\Query())
+            ->from($this->owner::tableName())
             ->andWhere($this->createGroupConditionAttributes())
             ->andWhere([$positionAttribute => ($this->owner->$positionAttribute - 1)])
             ->one();
@@ -76,7 +77,7 @@ class OrderBehavior extends Behavior
         $previousRecord->updateAttributes([
             $positionAttribute => $this->owner->$positionAttribute
         ]);
-        
+
         $this->owner->updateAttributes([
             $positionAttribute => $this->owner->$positionAttribute - 1
         ]);
@@ -93,7 +94,8 @@ class OrderBehavior extends Behavior
         $positionAttribute = $this->positionAttribute;
 
         /* @var $nextRecord BaseActiveRecord */
-        $nextRecord = $this->owner->find()
+        $nextRecord = (new \yii\db\Query())
+            ->from($this->owner::tableName())
             ->andWhere($this->createGroupConditionAttributes())
             ->andWhere([$positionAttribute => ($this->owner->$positionAttribute + 1)])
             ->one();
@@ -264,8 +266,6 @@ class OrderBehavior extends Behavior
      */
     protected function countGroupRecords()
     {
-//        $query = $this->owner->find();
-
         $query = (new \yii\db\Query())
             ->from($this->owner::tableName());
 
@@ -314,7 +314,8 @@ class OrderBehavior extends Behavior
 
         $position = $this->owner->getAttribute($this->positionAttribute);
 
-        $query = $this->owner->find();
+        $query = (new \yii\db\Query())
+            ->from($this->owner::tableName());
         if (!empty($this->groupAttributes)) {
             $query->andWhere($this->createGroupConditionAttributes());
         }
@@ -332,7 +333,8 @@ class OrderBehavior extends Behavior
     {
         $position = $this->owner->getAttribute($this->positionAttribute);
 
-        $query = $this->owner->find();
+        $query = (new \yii\db\Query())
+            ->from($this->owner::tableName());
         if (!empty($this->groupAttributes)) {
             $query->andWhere($this->createGroupConditionAttributes());
         }
@@ -353,7 +355,8 @@ class OrderBehavior extends Behavior
             return $this->owner;
         }
 
-        $query = $this->owner->find();
+        $query = (new \yii\db\Query())
+            ->from($this->owner::tableName());
         if (!empty($this->groupAttributes)) {
             $query->andWhere($this->createGroupConditionAttributes());
         }
@@ -369,7 +372,8 @@ class OrderBehavior extends Behavior
      */
     public function findLast()
     {
-        $query = $this->owner->find();
+        $query = (new \yii\db\Query())
+            ->from($this->owner::tableName());
         if (!empty($this->groupAttributes)) {
             $query->andWhere($this->createGroupConditionAttributes());
         }
