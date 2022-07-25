@@ -1,0 +1,27 @@
+### NetBeans ###
+nbactions.xml
+nbproject/
+nbbuild/
+nbdist/
+.nb-gradle/
+nb-configuration.xml
+/java/
+/WEB-INF/
+.idea
+*.iml
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
+### OTHER ###
+.DS_Store
+
+composer\.lock
+
+node_modules/
+package-lock.json
