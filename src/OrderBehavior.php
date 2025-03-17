@@ -64,8 +64,7 @@ class OrderBehavior extends Behavior
         $positionAttribute = $this->positionAttribute;
 
         /* @var $previousRecord BaseActiveRecord */
-        $previousRecord = (new \yii\db\Query())
-            ->from($this->owner::tableName())
+        $previousRecord = ($this->owner::className())::find()
             ->andWhere($this->createGroupConditionAttributes())
             ->andWhere([$positionAttribute => ($this->owner->$positionAttribute - 1)])
             ->one();
@@ -94,8 +93,7 @@ class OrderBehavior extends Behavior
         $positionAttribute = $this->positionAttribute;
 
         /* @var $nextRecord BaseActiveRecord */
-        $nextRecord = (new \yii\db\Query())
-            ->from($this->owner::tableName())
+        $nextRecord = ($this->owner::className())::find()
             ->andWhere($this->createGroupConditionAttributes())
             ->andWhere([$positionAttribute => ($this->owner->$positionAttribute + 1)])
             ->one();
