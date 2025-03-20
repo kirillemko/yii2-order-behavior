@@ -77,9 +77,8 @@ class OrderBehavior extends Behavior
             $positionAttribute => $this->owner->$positionAttribute
         ]);
 
-        $this->owner->updateAttributes([
-            $positionAttribute => $this->owner->$positionAttribute - 1
-        ]);
+        $this->owner->$positionAttribute = $this->owner->$positionAttribute - 1;
+        $this->owner->save();
 
         return true;
     }
@@ -106,9 +105,8 @@ class OrderBehavior extends Behavior
             $positionAttribute => $this->owner->$positionAttribute
         ]);
 
-        $this->owner->updateAttributes([
-            $positionAttribute => $this->owner->getAttribute($positionAttribute) + 1
-        ]);
+        $this->owner->$positionAttribute = $this->owner->$positionAttribute + 1;
+        $this->owner->save();
 
         return true;
     }
@@ -437,6 +435,8 @@ class OrderBehavior extends Behavior
                 $this->owner->$positionAttribute = $this->owner->getOldAttribute($positionAttribute);
             }
         }
+
+        $this->owner->afterSave(false, [$positionAttribute => $this->owner->$positionAttribute]);
     }
 
     /**
